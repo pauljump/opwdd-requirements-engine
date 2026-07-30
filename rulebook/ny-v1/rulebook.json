@@ -1,0 +1,601 @@
+{
+  "rulebookVersion": "ny-opwdd-2026.06-r1",
+  "jurisdiction": "NY",
+  "program": "OPWDD",
+  "compiledAt": "2026-06-11",
+  "legalBasis": "NYS Mental Hygiene Law 1.03(22); 14 NYCRR 629.1, 630.5, 635-10.3; 42 CFR 441",
+  "sources": [
+    {
+      "id": "OPWDD-01",
+      "title": "OPWDD Eligibility (web page)",
+      "url": "https://opwdd.ny.gov/eligibility",
+      "retrieved": "2026-06-11",
+      "sha256": null
+    },
+    {
+      "id": "OPWDD-02",
+      "title": "OPWDD Eligibility Guidelines: Determining Eligibility for Services — Substantial Handicap and Developmental Disability (27pp)",
+      "url": "https://opwdd.ny.gov/system/files/documents/2023/12/eligibility_guidelines-final.pdf",
+      "retrieved": "2026-06-11",
+      "sha256": "7ec6b1d742df15d48c58684457eb3b4160cf326e6353676916dc2062711c1676"
+    },
+    {
+      "id": "OPWDD-03",
+      "title": "ICF/IID Level of Care Eligibility Determination (LCED) Form (web page)",
+      "url": "https://opwdd.ny.gov/icfiid-level-care-eligibility-determination-lced-form",
+      "retrieved": "2026-06-11",
+      "sha256": null
+    },
+    {
+      "id": "OPWDD-04",
+      "title": "Instructions for the Completion of the ICF/IID LCED Form (15pp, rev. 01/28/2020)",
+      "url": "https://opwdd.ny.gov/system/files/documents/2020/01/final-lced_instructions_1-22-20.pdf",
+      "retrieved": "2026-06-11",
+      "sha256": "21df6ce6b25f362ca80fab6945a94fb74c7e28dae871177ddd651e528583534b"
+    },
+    {
+      "id": "OPWDD-05",
+      "title": "ADM 20-ADM-04: Social Evaluation Requirements for Initial Level of Care Eligibility Determination (Oct 16, 2020)",
+      "url": "https://opwdd.ny.gov/adm-2020-04-social-evaluation-requirements-initial-level-care-eligibility",
+      "retrieved": "2026-06-11",
+      "sha256": "250d6d1022176c508b66324ea70b91bd3f59755a325b84bff273a2ef1fdf09ae"
+    }
+  ],
+  "evidenceCategories": [
+    "psychological_intellectual",
+    "adaptive_behavior",
+    "asd_comprehensive_eval",
+    "medical_recent",
+    "medical_specialty",
+    "developmental_social_history",
+    "social_evaluation_recent",
+    "school_iep",
+    "mental_health_records",
+    "opwdd_correspondence",
+    "opwdd_form",
+    "other"
+  ],
+  "stages": [
+    { "id": "front_door", "parentLabel": "Getting started", "band": "applying" },
+    { "id": "initial_eligibility", "parentLabel": "Applying", "band": "applying" },
+    { "id": "additional_information_requested", "parentLabel": "They asked for more", "band": "more_info" },
+    { "id": "second_step_review", "parentLabel": "Second review", "band": "more_info" },
+    { "id": "third_step_review_or_fair_hearing", "parentLabel": "Third review / fair hearing", "band": "more_info" },
+    { "id": "eligibility_determined", "parentLabel": "Eligible — working on services", "band": "eligible" },
+    { "id": "level_of_care", "parentLabel": "Level of care (waiver)", "band": "services" },
+    { "id": "medicaid_waiver", "parentLabel": "Medicaid waiver", "band": "services" },
+    { "id": "service_authorization", "parentLabel": "Receiving services", "band": "receiving" },
+    { "id": "self_direction_or_fss", "parentLabel": "Self-Direction / FSS", "band": "receiving" },
+    { "id": "unknown_stage", "parentLabel": "Not sure yet", "band": "applying" }
+  ],
+  "acceptableInstruments": {
+    "cognitiveComprehensive": ["Wechsler", "WISC", "WPPSI", "WAIS", "Stanford-Binet", "SB-5", "SB5", "Leiter", "Kaufman", "KABC", "Woodcock-Johnson", "Woodcock Johnson", "WJ-IV", "WJ IV"],
+    "cognitiveEarlyChildhood": ["Bayley", "Battelle", "BDI", "Differential Ability", "DAS-II", "DAS", "Infant-Toddler Developmental Assessment", "IDA"],
+    "cognitiveNotAccepted": ["WASI", "KBIT", "K-BIT", "Peabody", "PPVT", "Slosson", "RIAS", "Reynolds Intellectual"],
+    "adaptiveComprehensive": ["Vineland", "VABS", "ABAS", "Adaptive Behavior Assessment System"],
+    "adaptiveLimited": ["SIB-R", "Scales of Independent Behavior"],
+    "asdMeasures": ["ADOS", "ADOS-2", "ADI-R", "CARS", "CARS-2"]
+  },
+  "requirements": [
+    {
+      "id": "REQ-ELIG-COGNITIVE",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Cognitive (IQ) testing — comprehensive, with all scores",
+      "parentLabel": "A full test of how your child thinks and learns",
+      "evidenceCategory": "psychological_intellectual",
+      "attributes": [
+        {
+          "key": "instrument",
+          "anyOfRef": ["cognitiveComprehensive", "cognitiveEarlyChildhood"],
+          "noneOfRef": ["cognitiveNotAccepted"],
+          "matchFields": ["facts.attributes.instrument", "facts.value", "identity.docType"],
+          "failReason": "Kit couldn't find a comprehensive intelligence test OPWDD accepts (for example a WISC or Stanford-Binet). Brief or screening measures like the WASI or KBIT won't substitute."
+        },
+        {
+          "key": "fullScores",
+          "anyOf": ["full scale", "full-scale", "FSIQ", "index", "subtest", "composite"],
+          "matchFields": ["facts.label", "facts.value"],
+          "failReason": "OPWDD wants the report to include all summary scores — full scale, index, and subtest — not just an overall number.",
+          "optional": false
+        }
+      ],
+      "recency": {
+        "maxAgeMonths": 36,
+        "anchor": "assessmentDate",
+        "hard": false,
+        "interpretation": true,
+        "note": "OPWDD's guidelines require 'current' evaluations without publishing a hard age limit. 36 months is Kit's working interpretation; reviewers often request newer testing, as they did in real cases."
+      },
+      "signatureRequired": true,
+      "allAvailable": true,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Section II.C.2 (Required Documentation); Section III.E (Appropriate Standardized Assessment Measures); Appendix A p.25-26" },
+        { "sourceId": "OPWDD-01", "where": "Documentation required: psychological report with assessment of intellectual functioning" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} ({assessmentDate}) covers this.",
+        "partially_supported": "{docTitle} looks like the right kind of document, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find comprehensive IQ testing in the documents it has. It may exist somewhere Kit hasn't seen.",
+        "stale_or_wrong_stage": "{docTitle} exists, but {reason} OPWDD reviewers often ask for more recent testing.",
+        "suggestedAsk": "Ask the evaluating psychologist for the final, signed report of a comprehensive intelligence test (e.g., WISC-V) including full-scale, index, and subtest scores. OPWDD asks for ALL available cognitive testing, not just the newest."
+      }
+    },
+    {
+      "id": "REQ-ELIG-ADAPTIVE",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Adaptive behavior assessment — standardized, with interpretive report",
+      "parentLabel": "A standardized look at everyday skills (like the Vineland)",
+      "evidenceCategory": "adaptive_behavior",
+      "attributes": [
+        {
+          "key": "instrument",
+          "anyOfRef": ["adaptiveComprehensive", "adaptiveLimited"],
+          "matchFields": ["facts.attributes.instrument", "facts.value", "identity.docType"],
+          "failReason": "Kit couldn't find a standardized adaptive measure OPWDD accepts (Vineland or ABAS)."
+        },
+        {
+          "key": "scoreLevels",
+          "anyOf": ["composite", "domain", "subdomain", "ABC", "adaptive behavior composite"],
+          "matchFields": ["facts.label", "facts.value"],
+          "failReason": "OPWDD wants composite, domain, and subdomain scores reported, plus a narrative written by the clinician — a computer-generated score sheet alone is not accepted."
+        }
+      ],
+      "recency": {
+        "maxAgeMonths": 36,
+        "anchor": "assessmentDate",
+        "hard": false,
+        "interpretation": true,
+        "note": "OPWDD requires 'current' adaptive evaluation without a published hard limit; 36 months is Kit's working interpretation."
+      },
+      "signatureRequired": true,
+      "allAvailable": true,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Section II.C.2; Section III.C (2.0 SD criteria); Section III.E; p.12 (interpretive report required, computer-generated reports not accepted); Appendix A p.26" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} ({assessmentDate}) covers this.",
+        "partially_supported": "{docTitle} looks like the right kind of document, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find a standardized adaptive assessment (like Vineland or ABAS) in the documents it has.",
+        "stale_or_wrong_stage": "{docTitle} exists, but {reason} OPWDD reviewers often ask for more recent testing.",
+        "suggestedAsk": "Ask the evaluator for a Vineland-3 or ABAS-3 with composite, domain, and subdomain scores AND an interpretive report written by the clinician. OPWDD asks for ALL available adaptive assessments."
+      }
+    },
+    {
+      "id": "REQ-ELIG-ASD-EVAL",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "appliesWhen": { "diagnosisBasis": "autism" },
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Comprehensive autism evaluation (when eligibility is based on ASD)",
+      "parentLabel": "A complete autism evaluation — not just a diagnosis letter",
+      "evidenceCategory": "asd_comprehensive_eval",
+      "attributes": [
+        {
+          "key": "structuredMeasure",
+          "anyOfRef": ["asdMeasures"],
+          "matchFields": ["facts.attributes.instrument", "facts.value"],
+          "failReason": "OPWDD requires structured, ASD-specific measures based on licensed-clinician observation (for example ADOS-2 or CARS-2)."
+        },
+        {
+          "key": "developmentalHistory",
+          "anyOf": ["developmental history", "milestones", "early development"],
+          "matchFields": ["facts.label", "facts.value"],
+          "failReason": "the report must include a comprehensive developmental history — milestones, repetitive behaviors, preoccupations, social interactions, and friendships."
+        },
+        {
+          "key": "observation",
+          "anyOf": ["observation", "observed", "during the evaluation", "behavioral observation"],
+          "matchFields": ["facts.label", "facts.value"],
+          "failReason": "the report must include an observations section describing the person's behavior during the evaluation in detail, plus which specific autism symptoms are present and how they show up."
+        }
+      ],
+      "recency": {
+        "maxAgeMonths": 36,
+        "anchor": "assessmentDate",
+        "hard": false,
+        "interpretation": true,
+        "note": "No hard published limit; reviewers requested a current comprehensive autism evaluation in real cases."
+      },
+      "signatureRequired": true,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Section II.C.5; Section II.E (ASD requires comprehensive evaluation, not a single screening); Appendix A p.26 (Autism paragraph)" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} ({assessmentDate}) covers this.",
+        "partially_supported": "{docTitle} addresses autism, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find a comprehensive autism evaluation in the documents it has. A diagnosis letter alone does not satisfy this — OPWDD wants the full differential diagnostic assessment.",
+        "stale_or_wrong_stage": "{docTitle} exists, but {reason}",
+        "suggestedAsk": "Ask for a comprehensive autism diagnostic report that includes ADOS-2/CARS-2 (or similar structured measures), a full developmental history, an in-evaluation observations section, and the specific symptoms with behavioral descriptions."
+      }
+    },
+    {
+      "id": "REQ-ELIG-MEDICAL-SPECIALTY",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "appliesWhen": { "diagnosisBasis": "other_than_intellectual_disability" },
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Medical / specialty documentation supporting the qualifying diagnosis",
+      "parentLabel": "Medical records that back up the diagnosis",
+      "evidenceCategory": "medical_specialty",
+      "attributes": [
+        {
+          "key": "diagnosisSupport",
+          "anyOf": ["diagnosis", "diagnostic", "DSM", "ICD"],
+          "matchFields": ["facts.label", "facts.value"],
+          "failReason": "the report must state the qualifying diagnosis, how it was arrived at, and how it impacts functioning."
+        }
+      ],
+      "signatureRequired": true,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Section II.C.1; Appendix A p.25 (Medical Documentation) and p.26 (Medical Reports and Specialty Assessments)" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} covers this.",
+        "partially_supported": "{docTitle} is medical documentation, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find medical or specialty reports supporting the qualifying diagnosis (required when the diagnosis is something other than intellectual disability).",
+        "stale_or_wrong_stage": "{docTitle} exists, but {reason}",
+        "suggestedAsk": "Ask the diagnosing provider for the report that states the qualifying diagnosis, how it was reached, and how it affects your child's functioning — signed by the clinician."
+      }
+    },
+    {
+      "id": "REQ-ELIG-MEDICAL-SUMMARY",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Physical or medical summary — completed within the past 12 months",
+      "parentLabel": "A recent check-up report from the doctor (within 12 months)",
+      "evidenceCategory": "medical_recent",
+      "attributes": [],
+      "recency": {
+        "maxAgeMonths": 12,
+        "anchor": "assessmentDate",
+        "hard": true,
+        "interpretation": false,
+        "note": "Appendix A states the general medical report must be completed within the past 12 months. This is OPWDD's own published rule."
+      },
+      "signatureRequired": true,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Appendix A p.25: 'Physical or Medical Summary (General medical report completed within the past 12 months)'" },
+        { "sourceId": "OPWDD-01", "where": "'A recent general medical report completed within the past 12 months'" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} ({assessmentDate}) covers this and is current.",
+        "partially_supported": "{docTitle} looks like a medical summary, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find a general medical report in the documents it has.",
+        "stale_or_wrong_stage": "{docTitle} is older than 12 months ({assessmentDate}). OPWDD's checklist requires the medical summary to be completed within the past 12 months — this one will likely need refreshing.",
+        "suggestedAsk": "Ask the pediatrician for a current general medical report (a completed, signed health form from a visit within the last 12 months)."
+      }
+    },
+    {
+      "id": "REQ-ELIG-ONSET-HISTORY",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Social/developmental history showing the disability began before age 22",
+      "parentLabel": "The story of when this began — before age 22",
+      "evidenceCategory": "developmental_social_history",
+      "satisfiableByOtherReports": true,
+      "attributes": [
+        {
+          "key": "onsetEvidence",
+          "anyOf": ["before age 22", "developmental history", "early childhood", "milestones", "psychosocial", "developmental delay", "early intervention"],
+          "matchFields": ["facts.label", "facts.value", "identity.docType"],
+          "failReason": "the records need to show the disability was present before age 22 — through developmental history, school records, or early diagnosis."
+        }
+      ],
+      "signatureRequired": false,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Section II.C.3 ('unless contained in other reports'); Appendix A p.25-26 (Social History paragraph: 'Anecdotal information is especially important if routine documentation is unavailable')" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} establishes onset before age 22.",
+        "partially_supported": "{docTitle} has background information, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find a social/developmental history establishing the disability began before age 22. This can live inside other comprehensive reports — if you have an evaluation with a developmental history section, show it to Kit.",
+        "stale_or_wrong_stage": "{docTitle} exists, but {reason}",
+        "suggestedAsk": "Ask the evaluating clinician or care manager for a psychosocial or developmental history report documenting when difficulties first appeared. A detailed history inside a larger evaluation also counts."
+      }
+    },
+    {
+      "id": "REQ-ELIG-SOCIAL-EVAL",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Social evaluation — completed within the past 12 months",
+      "parentLabel": "A current social evaluation (within 12 months)",
+      "evidenceCategory": "social_evaluation_recent",
+      "attributes": [
+        {
+          "key": "socialContent",
+          "anyOf": ["social evaluation", "psychosocial", "family history", "social development", "social functioning"],
+          "matchFields": ["identity.docType", "facts.label", "facts.value"],
+          "failReason": "Kit couldn't confirm this contains the social-evaluation content OPWDD describes (family history/background, affective development, speech/language, social development)."
+        }
+      ],
+      "recency": {
+        "maxAgeMonths": 12,
+        "anchor": "assessmentDate",
+        "hard": true,
+        "interpretation": false,
+        "note": "Appendix A states the social evaluation must be completed within the past 12 months. This is OPWDD's own published rule."
+      },
+      "signatureRequired": false,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Appendix A p.25: 'Social evaluation (Completed within the past 12 months)'" },
+        { "sourceId": "OPWDD-05", "where": "Required elements: Overview; Family History/Background; Individual Assessment (Affective, Speech & Language, Social Development) each with Strengths/Needs/Recommendations" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} ({assessmentDate}) covers this and is current.",
+        "partially_supported": "{docTitle} looks like a social evaluation, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find a social evaluation completed within the past 12 months.",
+        "stale_or_wrong_stage": "{docTitle} is older than 12 months ({assessmentDate}). OPWDD's checklist requires the social evaluation to be within the past 12 months — it will likely need refreshing.",
+        "suggestedAsk": "Ask your care manager or a social worker for a current social evaluation. A properly written Life Plan can also qualify if it contains all the required elements."
+      }
+    },
+    {
+      "id": "REQ-ELIG-TRANSMITTAL",
+      "kind": "administrative",
+      "requiredLevel": "required",
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "unknown_stage"],
+      "title": "OPWDD Transmittal Form accompanies the submission",
+      "parentLabel": "The cover form OPWDD requires with every submission",
+      "evidenceCategory": "opwdd_form",
+      "attributes": [
+        {
+          "key": "transmittal",
+          "anyOf": ["transmittal"],
+          "matchFields": ["identity.docType", "facts.label", "facts.value"],
+          "failReason": "Kit hasn't seen a completed Transmittal Form."
+        }
+      ],
+      "signatureRequired": false,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "p.15: 'An OPWDD Transmittal Form must accompany all requests submitted to the DDRFO'; Appendix A p.25 (new Transmittal Form needed if demographics change); application = documents + Transmittal Form uploaded to CHOICES + e-mail to the CCO Mailbox" }
+      ],
+      "explanations": {
+        "supported": "Kit has seen the Transmittal Form.",
+        "partially_supported": "{reason}",
+        "not_found_in_current_corpus": "Kit hasn't seen the OPWDD Transmittal Form. Your CCO usually completes and uploads it with the packet — worth confirming it was included.",
+        "stale_or_wrong_stage": "{reason}",
+        "suggestedAsk": "Confirm with your care manager that the Transmittal Form was uploaded to CHOICES with the documents, and that the CCO e-mailed OPWDD that the packet is ready — that e-mail is what makes it a formal application."
+      }
+    },
+    {
+      "id": "REQ-ELIG-IEP",
+      "kind": "evidence",
+      "requiredLevel": "helpful",
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Most recent IEP or 504 plan, plus referenced psychoeducational reports",
+      "parentLabel": "School records — the current IEP and the reports it mentions",
+      "evidenceCategory": "school_iep",
+      "attributes": [],
+      "signatureRequired": false,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Appendix A p.25 and p.27: most current IEP/504; 'Please also send us all psychoeducational reports referenced on the Plan'; EI plan with Core Evaluation if applicable" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} covers this.",
+        "partially_supported": "{docTitle} is a school record, but {reason}",
+        "not_found_in_current_corpus": "Kit hasn't seen the current IEP. OPWDD lists it as helpful, not required — but it often supplies onset and functional evidence the packet needs.",
+        "stale_or_wrong_stage": "{docTitle} exists, but a newer plan year likely exists. OPWDD asks for the most current plan.",
+        "suggestedAsk": "Send OPWDD the most current IEP and every psychoeducational report it references."
+      }
+    },
+    {
+      "id": "REQ-ELIG-MENTAL-HEALTH",
+      "kind": "evidence",
+      "requiredLevel": "helpful",
+      "stages": ["front_door", "initial_eligibility", "additional_information_requested", "second_step_review", "third_step_review_or_fair_hearing", "unknown_stage"],
+      "title": "Mental health evaluations and records, if applicable",
+      "parentLabel": "Mental health records, if your child has them",
+      "evidenceCategory": "mental_health_records",
+      "attributes": [],
+      "signatureRequired": false,
+      "citations": [
+        { "sourceId": "OPWDD-02", "where": "Appendix A p.25: 'Mental Health Evaluations & Records, if applicable (Intake, Discharge, Treatment Plans — no progress notes please)'" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} covers this.",
+        "partially_supported": "{reason}",
+        "not_found_in_current_corpus": "Not applicable for many families. If your child has psychiatric records, OPWDD wants intake, discharge, and treatment plans — not progress notes.",
+        "stale_or_wrong_stage": "{reason}",
+        "suggestedAsk": "If applicable, gather intake, discharge, and treatment-plan records (skip progress notes — OPWDD asks you not to send those)."
+      }
+    },
+    {
+      "id": "REQ-LCED-DD-ELIGIBILITY",
+      "kind": "administrative",
+      "requiredLevel": "required",
+      "stages": ["eligibility_determined", "level_of_care", "medicaid_waiver"],
+      "title": "OPWDD developmental disability eligibility already determined",
+      "parentLabel": "OPWDD has already said yes to basic eligibility",
+      "evidenceCategory": "opwdd_correspondence",
+      "attributes": [
+        {
+          "key": "determination",
+          "anyOf": ["eligible", "eligibility", "determination"],
+          "matchFields": ["identity.docType", "facts.label", "facts.value"],
+          "failReason": "Kit hasn't seen the eligibility determination letter."
+        }
+      ],
+      "signatureRequired": false,
+      "citations": [
+        { "sourceId": "OPWDD-04", "where": "p.12-13: 'Has the OPWDD process for DD Eligibility been completed by the DDRO?' — if NO, 'the LCED cannot be approved and waiver eligibility must be declined until appropriate documentation is available.'" }
+      ],
+      "explanations": {
+        "supported": "Kit has seen the eligibility determination — the level-of-care step can proceed.",
+        "partially_supported": "{reason}",
+        "not_found_in_current_corpus": "Kit hasn't seen the OPWDD eligibility determination letter. The waiver level-of-care step cannot be approved without DD eligibility on record — show Kit the letter if you have it.",
+        "stale_or_wrong_stage": "{reason}",
+        "suggestedAsk": "Locate the OPWDD eligibility determination letter and keep it with the packet — the LCED reviewer must verify it."
+      }
+    },
+    {
+      "id": "REQ-LCED-PHYSICAL",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "stages": ["eligibility_determined", "level_of_care", "medicaid_waiver"],
+      "title": "Physical exam — completed within the last 365 days",
+      "parentLabel": "A physical exam from the last year",
+      "evidenceCategory": "medical_recent",
+      "attributes": [],
+      "recency": {
+        "maxAgeMonths": 12,
+        "anchor": "assessmentDate",
+        "hard": true,
+        "interpretation": false,
+        "note": "LCED instructions: 'the date of the current (completed within the last 365 days) physical exam completed by a physician, registered physician's assistant, or nurse practitioner.' This is OPWDD's own published rule."
+      },
+      "signatureRequired": true,
+      "citations": [
+        { "sourceId": "OPWDD-04", "where": "p.7, Dates of Pre-enrollment evaluations — Physical" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} ({assessmentDate}) covers this and is current.",
+        "partially_supported": "{docTitle} looks right, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find a physical exam from the last 365 days — the initial level-of-care form requires one.",
+        "stale_or_wrong_stage": "{docTitle} is older than 365 days ({assessmentDate}). The LCED requires a physical completed within the last year — this needs refreshing.",
+        "suggestedAsk": "Book a physical with the pediatrician (or NP/PA) and request the completed, signed exam report — the LCED form needs its date."
+      }
+    },
+    {
+      "id": "REQ-LCED-SOCIAL-EVAL",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "stages": ["eligibility_determined", "level_of_care", "medicaid_waiver"],
+      "title": "Current social evaluation with the ADM 20-ADM-04 elements",
+      "parentLabel": "A current social evaluation that covers everything the waiver form needs",
+      "evidenceCategory": "social_evaluation_recent",
+      "attributes": [
+        {
+          "key": "requiredElements",
+          "anyOf": ["family history", "affective", "speech and language", "social development", "strengths", "psychosocial"],
+          "matchFields": ["facts.label", "facts.value", "identity.docType"],
+          "failReason": "the evaluation must include: Overview; Family History/Background; and an Individual Assessment covering Affective Development, Speech & Language Development, and Social Development — each with strengths, needs, and recommendations."
+        }
+      ],
+      "recency": {
+        "maxAgeMonths": 12,
+        "anchor": "assessmentDate",
+        "hard": false,
+        "interpretation": true,
+        "note": "LCED instructions require a 'current' social evaluation reflecting current functioning, without a published hard limit at this stage; 12 months mirrors the eligibility checklist and is Kit's working interpretation here."
+      },
+      "signatureRequired": false,
+      "citations": [
+        { "sourceId": "OPWDD-04", "where": "p.7, Dates of Pre-enrollment evaluations — Social ('current evaluation completed by the Care Manager or social worker... reflection of the individual's current social functioning')" },
+        { "sourceId": "OPWDD-05", "where": "Elements of Social Evaluation; Qualifications (I/DD HH Care Manager, QIDP, LMSW/LCSW, Psychologist, or Master's in Psychology familiar with the person); a properly written Life Plan may qualify if complete" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} ({assessmentDate}) covers this.",
+        "partially_supported": "{docTitle} is close, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find a current social evaluation with the elements the waiver form requires. Your care manager is the natural person to complete one — a complete Life Plan can also qualify.",
+        "stale_or_wrong_stage": "{docTitle} exists, but {reason}",
+        "suggestedAsk": "Ask your care manager for a current social evaluation covering family history/background plus affective, speech & language, and social development — each with strengths, needs, and recommendations. ADM 20-ADM-04 is the document to reference."
+      }
+    },
+    {
+      "id": "REQ-LCED-PSYCH",
+      "kind": "evidence",
+      "requiredLevel": "required",
+      "stages": ["eligibility_determined", "level_of_care", "medicaid_waiver"],
+      "title": "Current psychological evaluation (or sufficient record) for the LCED",
+      "parentLabel": "Psychological testing the waiver reviewer can rely on",
+      "evidenceCategory": "psychological_intellectual",
+      "attributes": [
+        {
+          "key": "instrument",
+          "anyOfRef": ["cognitiveComprehensive", "cognitiveEarlyChildhood"],
+          "matchFields": ["facts.attributes.instrument", "facts.value", "identity.docType"],
+          "failReason": "Kit couldn't find standardized psychological testing in the record."
+        }
+      ],
+      "recency": {
+        "maxAgeMonths": 36,
+        "anchor": "assessmentDate",
+        "hard": false,
+        "interpretation": true,
+        "note": "LCED instructions: an annually updated evaluation is NOT needed if the record has sufficient information to complete the diagnosis and adaptive-deficit portions of the form. A current evaluation is required only if the reviewer finds the record insufficient."
+      },
+      "signatureRequired": true,
+      "citations": [
+        { "sourceId": "OPWDD-04", "where": "p.7, Dates of Pre-enrollment evaluations — Psychological; EI Multidisciplinary Core Evaluation acceptable with standardized scores and school/licensed psychologist participation" }
+      ],
+      "explanations": {
+        "supported": "{docTitle} ({assessmentDate}) covers this.",
+        "partially_supported": "{docTitle} is psychological testing, but {reason}",
+        "not_found_in_current_corpus": "Kit didn't find psychological testing the waiver reviewer can rely on.",
+        "stale_or_wrong_stage": "{docTitle} exists, but {reason} The reviewer may accept the existing record if it is sufficient — an automatic re-test is not required.",
+        "suggestedAsk": "The existing comprehensive evaluation may be sufficient — the LCED does not require an annual re-test if the record is complete. Confirm with the care manager whether the reviewer needs anything newer."
+      }
+    },
+    {
+      "id": "REQ-LCED-CRITERIA",
+      "kind": "interpretive",
+      "requiredLevel": "required",
+      "stages": ["eligibility_determined", "level_of_care", "medicaid_waiver"],
+      "title": "Evidence for the LCED decision criteria",
+      "parentLabel": "The three things the waiver form actually checks",
+      "evidenceCategory": "other",
+      "decisionLogic": "Eligible for ICF/IID Level of Care if: (1) documented qualifying diagnosis made or approved by a physician — AND — (2) disability manifested prior to age 22 — AND — at least one of: (3) severe behavior problems endangering self or others; (4) health care need (daily individualized medical attention, self-injurious behavior, or self-care skill deficits); (5) adaptive behavior deficit in any of: Communication, Learning, Mobility, Capacity for Independent Living, Self-Direction.",
+      "attributes": [
+        {
+          "key": "criteriaEvidence",
+          "anyOf": ["diagnosis", "adaptive", "self-care", "behavior", "communication", "independent living", "self-direction"],
+          "matchFields": ["facts.label", "facts.value"],
+          "failReason": "Kit hasn't seen evidence speaking to the LCED criteria yet."
+        }
+      ],
+      "signatureRequired": false,
+      "citations": [
+        { "sourceId": "OPWDD-04", "where": "p.4-5 (Determination of Eligibility: Q1 AND Q2 AND (Q3 OR Q4 OR Q5)); p.8-12 (definitions of each question, including the five adaptive deficit areas A-E)" }
+      ],
+      "explanations": {
+        "supported": "",
+        "partially_supported": "",
+        "needs_qualified_review": "Your documents contain evidence that speaks to these criteria — {evidenceSummary}. Whether it satisfies the form is a judgment for the QIDP and reviewing physician or nurse practitioner, not for Kit. Kit's job is making sure they have everything in front of them.",
+        "not_found_in_current_corpus": "Kit hasn't seen documents that speak to the LCED criteria yet — the cognitive, adaptive, and behavioral evidence above usually carries this.",
+        "stale_or_wrong_stage": "{reason}",
+        "suggestedAsk": "Ask the care manager to confirm the QIDP has the full record — the LCED is completed by a qualified professional and reviewed and signed by a physician or nurse practitioner. OPWDD's own staff complete this form; your job is supplying the evidence."
+      }
+    },
+    {
+      "id": "REQ-LCED-REDETERMINATION",
+      "kind": "administrative",
+      "requiredLevel": "required",
+      "stages": ["service_authorization", "self_direction_or_fss"],
+      "title": "Annual LCED redetermination — within 365 days of the last one",
+      "parentLabel": "The yearly re-check that keeps waiver services running",
+      "evidenceCategory": "opwdd_form",
+      "attributes": [
+        {
+          "key": "lced",
+          "anyOf": ["LCED", "level of care", "redetermination"],
+          "matchFields": ["identity.docType", "facts.label", "facts.value"],
+          "failReason": "Kit hasn't seen an LCED or its redetermination date."
+        }
+      ],
+      "recency": {
+        "maxAgeMonths": 12,
+        "anchor": "reportDate",
+        "hard": true,
+        "interpretation": false,
+        "note": "LCED instructions: redetermination 'must be completed and signed annually, not to exceed one year (365 days) from the effective date of the initial LCED determination or from the signature date of the previous year's redetermination.'"
+      },
+      "signatureRequired": true,
+      "citations": [
+        { "sourceId": "OPWDD-04", "where": "p.1 (federal annual requirement, 42 CFR 441), p.4 and p.14 (365-day rule; same form reusable when nothing changed)" }
+      ],
+      "explanations": {
+        "supported": "The LCED is current ({assessmentDate}).",
+        "partially_supported": "{reason}",
+        "not_found_in_current_corpus": "Kit hasn't seen the current LCED. Services and billing depend on it being redetermined every 365 days — worth confirming the date with your care manager.",
+        "stale_or_wrong_stage": "The last LCED Kit has seen is older than 365 days. The redetermination must be completed annually — ask your care manager for the current effective date.",
+        "suggestedAsk": "Ask your care manager for the LCED's current effective date and when the next annual redetermination is due."
+      }
+    }
+  ]
+}
