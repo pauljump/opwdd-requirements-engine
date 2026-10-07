@@ -3,3 +3,10 @@
 DerivedData/
 *.xcuserstate
 .DS_Store
+
+# Generated local files; source and retained evidence remain explicit.
+__pycache__/
+*.pyc
+*.tsbuildinfo
+.next/
+.next-*/
